@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8" />
+    <script src="../blockly/blockly_compressed.js"></script>
+    <script src="../blockly/blocks_compressed.js"></script>
+    <script src="../blockly/msg/js/en.js"></script>
+    <script src="../blockly/php_compressed.js"></script>
+    <script src="../blockly/blocks/custom.js"></script>
+    <script src="../blockly/generators/php/custom.js"></script>
+    
+  </head>
+
+  <body>
+
+    <p>
+      <button onclick="showCode()">GENERATE</button>
+    </p>
+
+  <div id="blocklyDiv" style="height: 800px; width: 1400px"></div>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+    <category name="Text">
+      <block type="text">
+        <field name="TEXT"></field>
+      </block>
+    </category>
+    <category name="Colour" colour="#a5745b">
+      <block type="colour_picker">
+        <field name="COLOUR">#ff0000</field>
+      </block>
+      <block type="colour_random"></block>
+      <block type="colour_rgb">
+        <value name="RED">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+        <value name="GREEN">
+          <shadow type="math_number">
+            <field name="NUM">50</field>
+          </shadow>
+        </value>
+        <value name="BLUE">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="colour_blend">
+        <value name="COLOUR1">
+          <shadow type="colour_picker">
+            <field name="COLOUR">#ff0000</field>
+          </shadow>
+        </value>
+        <value name="COLOUR2">
+          <shadow type="colour_picker">
+            <field name="COLOUR">#3333ff</field>
+          </shadow>
+        </value>
+        <value name="RATIO">
+          <shadow type="math_number">
+            <field name="NUM">0.5</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <sep></sep>
+    <category name="Main components">
+      <block type="front_page"></block>
+      <block type="header"></block>
+    </category>
+    <category name="Child components">
+      <block type="posts">
+        <field name="order_by">old_to_new</field>
+      </block>
+      <block type="title">
+        <field name="title_font_style">arial</field>
+        <field name="title_text">Text</field>
+      </block>
+      <block type="paragraph"></block>
+    </category>
+  </xml>
+
+  <script>
+    var workspace = Blockly.inject("blocklyDiv", {
+      toolbox: document.getElementById("toolbox"),
+    });
+
+    function showCode() {
+      var code = Blockly.PHP.workspaceToCode(workspace);
+      console.log(code);
+    }
+
+  </script>
+  
+</body>
+</html>

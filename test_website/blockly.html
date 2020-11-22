@@ -18,7 +18,7 @@
       <button onclick="showCode()">GENERATE</button>
     </p>
 
-  <div id="blocklyDiv" style="height: 800px; width: 1400px"></div>
+    <div id="blocklyDiv" style="height: 600px; width: 1200px"></div>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="Text">
@@ -67,25 +67,37 @@
       </block>
     </category>
     <sep></sep>
-    <category name="Main components">
+    <category name="Templates">
       <block type="front_page"></block>
       <block type="header"></block>
       <block type="footer"></block>
       <block type="single_page"></block>
       <block type="single_post"></block>
       <block type="archive"></block>
+      <block type="search"></block>
+      <block type="error"></block>
     </category>
     <category name="Child components">
       <block type="page_content"></block>
       <block type="text_custom"></block>
       <block type="image"></block>
+      <block type="search_field"></block>
       <block type="posts"></block>
+      <block type="records"></block>
+    </category>
+    <category name="Content items">
+      <block type="title"></block>
+      <block type="content"></block>
+      <block type="excerpt"></block>
     </category>
     <category name="Configuration">
       <block type="pixels"></block>
       <block type="percents"></block>
       <block type="text_style"></block>
       <block type="content_margin"></block>
+      <block type="display_style"></block>
+      <block type="border"></block>
+      <block type="padding"></block>
     </category>
   </xml>
 

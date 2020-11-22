@@ -227,22 +227,19 @@ Blockly.Blocks['posts'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Posts");
+    this.appendStatementInput("post")
+        .appendField("Post content items:")
+        .setCheck(["title", "content"]);
     this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("Posts per page")
         .appendField(new Blockly.FieldNumber(10, 1, Infinity, 1), "posts_per_page");
     this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Show only part of the post content")
-        .appendField(new Blockly.FieldCheckbox("TRUE"), "show_part_of_the_content");
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("Show thumbnail")
         .appendField(new Blockly.FieldCheckbox("TRUE"), "show_thumbnail");
-    this.appendValueInput("post_title_style")
-        .setCheck("text_style")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("Title style");
+    this.appendValueInput("post_style")
+        .setCheck("display_style")
+        .appendField("Post display style");
+    this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(120);
@@ -291,6 +288,179 @@ Blockly.Blocks['content_margin'] = {
     this.appendValueInput("bottom_margin")
         .setCheck(["pixels", "percents"])
         .appendField("Bottom margin");
+    this.setOutput(true, null);
+    this.setColour(165);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['search_field'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Search field");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(120);
+ this.setTooltip("");
+ this.setHelpUrl("");
+}
+};
+
+Blockly.Blocks['title'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Item title");
+    this.appendValueInput("post_title_style")
+        .setCheck("text_style")
+        .appendField("Text style");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['content'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Item content");
+    this.appendValueInput("post_content_style")
+        .setCheck("text_style")
+        .appendField("Text style");
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['excerpt'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Item Excerpt");
+    this.appendValueInput("post_excerpt_style")
+        .setCheck("text_style")
+        .appendField("Text style");
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['display_style'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Display style");
+    this.appendValueInput("margins")
+        .setCheck("content_margin")
+        .appendField("Margins");
+    this.appendValueInput("padding")
+        .setCheck("padding")
+        .appendField("Padding");
+    this.appendValueInput("border")
+        .setCheck("border")
+        .appendField("Border");
+    this.appendValueInput("background")
+        .setCheck("color")
+        .appendField("Background color");
+    this.setOutput(true, null);
+    this.setColour(165);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['border'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Border");
+    this.appendValueInput("border_style")
+        .setCheck("String")
+        .appendField("Border style");
+    this.appendValueInput("border_width")
+        .setCheck("String")
+        .appendField("Border width");
+    this.appendValueInput("border_color")
+        .setCheck(null)
+        .appendField("Border color");
+    this.setOutput(true, null);
+    this.setColour(165);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['records'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Records");
+    this.appendValueInput("display_style")
+        .setCheck("display_style")
+        .appendField("Record display style");
+    this.appendStatementInput("item_configuration")
+        .setCheck(["title", "content", "excerpt"])
+        .appendField("Record content items");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(120);
+ this.setTooltip("Records that are displayed in archive or search result page");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['search'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Search results");
+    this.appendValueInput("margins")
+        .setCheck(null)
+        .appendField("Margins");
+    this.appendStatementInput("content")
+        .setCheck(null);
+    this.setColour(270);
+ this.setTooltip("Template to display search results");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['error'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("404 page");
+    this.appendValueInput("margins")
+        .setCheck("content_margin")
+        .appendField("Margins");
+    this.appendStatementInput("content")
+        .setCheck(null);
+    this.setColour(270);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['padding'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Padding");
+    this.appendValueInput("left")
+        .setCheck(["pixels", "percents"])
+        .appendField("Left padding");
+    this.appendValueInput("right")
+        .setCheck(["pixels", "percents"])
+        .appendField("Right padding");
+    this.appendValueInput("top")
+        .setCheck(["pixels", "percents"])
+        .appendField("Top padding");
+    this.appendValueInput("bottom")
+        .setCheck(["pixels", "percents"])
+        .appendField("Bottom padding");
     this.setOutput(true, null);
     this.setColour(165);
  this.setTooltip("");

@@ -1,5 +1,5 @@
 
-Blockly.Blocks['front_page'] = {
+Blockly.Blocks['front-page'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Front page");
@@ -119,19 +119,19 @@ Blockly.Blocks['image'] = {
 
 Blockly.Blocks['footer'] = {
   init: function() {
-    this.appendStatementInput("footer_view")
+    this.appendStatementInput("footer_components")
         .setCheck(null)
         .appendField("Footer");
     this.appendDummyInput()
         .appendField("Show navigation menu")
-        .appendField(new Blockly.FieldCheckbox("TRUE"), "NAME");
+        .appendField(new Blockly.FieldCheckbox("TRUE"), "show_nav");
     this.setColour(270);
  this.setTooltip("Add elements to show in your footer view");
  this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['single_page'] = {
+Blockly.Blocks['page'] = {
   init: function() {
     this.appendStatementInput("single_page_view")
         .setCheck(null)
@@ -145,7 +145,7 @@ Blockly.Blocks['single_page'] = {
   }
 };
 
-Blockly.Blocks['single_post'] = {
+Blockly.Blocks['single'] = {
   init: function() {
     this.appendStatementInput("single_view")
         .setCheck(null)
@@ -368,7 +368,7 @@ Blockly.Blocks['display_style'] = {
         .setCheck("border")
         .appendField("Border");
     this.appendValueInput("background")
-        .setCheck("color")
+        .setCheck("Colour")
         .appendField("Background color");
     this.setOutput(true, null);
     this.setColour(165);
@@ -430,7 +430,7 @@ Blockly.Blocks['search'] = {
   }
 };
 
-Blockly.Blocks['error'] = {
+Blockly.Blocks['404'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("404 page");
@@ -464,6 +464,21 @@ Blockly.Blocks['padding'] = {
     this.setOutput(true, null);
     this.setColour(165);
  this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['index'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Index");
+    this.appendValueInput("margins")
+        .setCheck("content_margin")
+        .appendField("Margins");
+    this.appendStatementInput("components")
+        .setCheck(null);
+    this.setColour(270);
+ this.setTooltip("Fallback if no template file will be found.");
  this.setHelpUrl("");
   }
 };

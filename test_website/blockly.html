@@ -1,24 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;">
   <head>
 
     <meta charset="utf-8" />
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
     <script src="../blockly/blockly_compressed.js"></script>
     <script src="../blockly/blocks_compressed.js"></script>
     <script src="../blockly/msg/js/en.js"></script>
     <script src="../blockly/php_compressed.js"></script>
     <script src="../blockly/blocks/custom.js"></script>
     <script src="../blockly/generators/php/custom.js"></script>
-    
+    <script src="../test_website/jszip/dist/jszip.js"></script>
+    <script src="../test_website/jszip/vendor/FileSaver.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- boootstap -->
+
   </head>
 
-  <body>
+  <body style="height: 100%;">
 
-    <p>
-      <button onclick="showCode()">GENERATE</button>
-    </p>
+    <table style="width:100%; height: 90%; table-layout:fixed;">
+      <tr>
+        <td style="width:40%; height: 100%;">
 
-    <div id="blocklyDiv" style="height: 600px; width: 1200px"></div>
+          <button type="button" class="btn btn-success" onclick="showCode()" style="margin: 10px;">Generate theme</button>
+
+          <div id="blocklyDiv" style="height: 95%; width: 100%;"></div>
+
+        </td>
+        <td style="width:60%; height: 100%;">
+
+          <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: 5px;">
+            <label class="btn btn-secondary active">
+              <input type="radio" name="options" id="option_code" autocomplete="off" checked> Code
+            </label>
+            <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option_demo" autocomplete="off"> Live demo
+            </label>
+          </div>
+
+            <textarea id="codearea" readonly style="height: 95%; width: 100%;"></textarea>
+            <iframe id="iframe_wordpress" src="http://localhost/testsite/" title="Live theme demo" style="height: 95%; width: 100%;"></iframe>
+
+        </td>
+      </tr>
+    </table>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="Text">
@@ -68,14 +100,15 @@
     </category>
     <sep></sep>
     <category name="Templates">
-      <block type="front_page"></block>
+      <block type="index"></block>
+      <block type="front-page"></block>
       <block type="header"></block>
       <block type="footer"></block>
-      <block type="single_page"></block>
-      <block type="single_post"></block>
+      <block type="page"></block>
+      <block type="single"></block>
       <block type="archive"></block>
       <block type="search"></block>
-      <block type="error"></block>
+      <block type="404"></block>
     </category>
     <category name="Child components">
       <block type="page_content"></block>
@@ -102,14 +135,84 @@
   </xml>
 
   <script>
+    $(document).ready(function () {
+      $('#iframe_wordpress').hide();
+
+      $('#option_code').on('change', function () {
+        $('#codearea').show();
+        $('#iframe_wordpress').hide();
+      });
+
+      $('#option_demo').on('change', function () {
+        $('#codearea').hide();
+        $('#iframe_wordpress').show();
+      });
+    });
     var workspace = Blockly.inject("blocklyDiv", {
       toolbox: document.getElementById("toolbox"),
+      zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2,
+          pinch: true},
+      trashcan: true
     });
 
-    function showCode() {
+    function onWorkspaceChange(event) {
       var code = Blockly.PHP.workspaceToCode(workspace);
-      console.log(code);
+      document.getElementById('codearea').value = code;
+
+      if(workspace.allInputsFilled()) {
+        var blocks = workspace.getTopBlocks();
+        for (var i = 0; i < blocks.length; i++) {
+          var blockName = blocks[i].type + ".php";
+          var blockCode = Blockly.PHP.blockToCode(blocks[i]);
+
+          var request = { title: blockName, content: blockCode };
+
+          $.ajax({
+            type: 'post',
+            contentType: 'application/json; charset=utf-8',
+            url: `https://localhost:5001/api/wordpressTheme`,
+            data: JSON.stringify(request),
+            success: function(status) { 
+              document.getElementById('iframe_wordpress').src = document.getElementById('iframe_wordpress').src;
+            },
+            error: function () {
+              console.log("error");
+            }
+          });
+
+        }
+      }
     }
+    workspace.addChangeListener(onWorkspaceChange);
+
+    function showCode() {
+      var blocks = workspace.getTopBlocks();
+      var zip = new JSZip();
+
+      // patikrinti ar yra index. jei nera - negeneruoti
+
+      for (var i = 0; i < blocks.length; i++) {
+          var blockName = blocks[i].type + ".php";
+          var blockCode = Blockly.PHP.blockToCode(blocks[i]);
+  
+          zip.file(blockName, blockCode);
+      }
+
+      zip.file("style.css", `/*
+                            Theme Name: New Theme
+                            Author: Neringa
+                            */`);
+  
+      zip.generateAsync({type:"blob"}).then(function(content) {
+          saveAs(content, "theme.zip");
+      });
+  }
 
   </script>
   

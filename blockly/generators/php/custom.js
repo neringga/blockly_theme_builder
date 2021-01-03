@@ -1,10 +1,10 @@
 
-Blockly.PHP['front-page'] = function(block) {
-  var value_margin = Blockly.PHP.valueToCode(block, 'margin', Blockly.PHP.ORDER_NONE);
-  var statements_front_page = Blockly.PHP.statementToCode(block, 'Front-page');
+Blockly.PHP['home'] = function(block) {
+  var value_margin = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
+  var statements_front_page = Blockly.PHP.statementToCode(block, 'input');
   
   var code =  `
-        <?php /* Template Name: Front page */ ?>
+        <?php /* Template Name: Home */ ?>
   <?php get_header();?>
   <div style="${value_margin}">
   ${statements_front_page}
@@ -15,27 +15,31 @@ Blockly.PHP['front-page'] = function(block) {
 };
 
 Blockly.PHP['page_content'] = function(block) {
-  var code = `<?php if (have_posts()) : while(have_posts()) : the_post() ;?>
+  var code = `
+  <?php if (have_posts()) : while(have_posts()) : the_post() ;?>
 
-                  <?php the_title(); ?>
-                  <?php the_content();?>
+    <?php the_title(); ?>
+    <?php the_content();?>
 
-              <?php endwhile; endif;?>`;
+  <?php endwhile; endif;?>`;
+
   return code;
 };
 
 Blockly.PHP['header'] = function(block) {
   var checkbox_name = block.getFieldValue('NAME') == 'TRUE'; // show navigation menu
   var statements_header_components = Blockly.PHP.statementToCode(block, 'header_components');
+  var display_style = Blockly.PHP.valueToCode(block, 'style', Blockly.PHP.ORDER_NONE);
   var navigation_menu = "";
 
   if (checkbox_name == true) {
-    navigation_menu = `<?php wp_nav_menu (
-                          array(
-                            'theme_location' => 'header-menu',
-                            'menu_class' => 'top-bar'
-                          )
-                        ); ?>`
+    navigation_menu = `
+    <?php wp_nav_menu (
+      array(
+        'theme_location' => 'header-menu',
+        'menu_class' => 'top-bar'
+      )
+    ); ?>`
   }
   
   var code = ` 
@@ -45,7 +49,7 @@ Blockly.PHP['header'] = function(block) {
     <head><?php wp_head(); ?></head>
     <body <?php body_class(); ?>>
 
-    <header class="sticky-top">
+    <header class="sticky-top" style="${display_style}">
     <div class="container">
       ${navigation_menu}
       ${statements_header_components}
@@ -58,8 +62,9 @@ Blockly.PHP['header'] = function(block) {
 Blockly.PHP['text_custom'] = function(block) {
   var value_text = Blockly.PHP.valueToCode(block, 'text', Blockly.PHP.ORDER_NONE);
   var value_text_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
+  var value_margins = Blockly.PHP.valueToCode(block, 'margins', Blockly.PHP.ORDER_NONE);
 
-  var code = `<div ${value_text_style}>${removeLiterals(value_text)}</div>`;
+  var code = `<div style="${value_text_style} ${value_margins}">${removeLiterals(value_text)}</div>`;
 
   return code;
 };
@@ -70,7 +75,7 @@ Blockly.PHP['image'] = function(block) {
   var value_width = Blockly.PHP.valueToCode(block, 'width', Blockly.PHP.ORDER_NONE);
   var value_height = Blockly.PHP.valueToCode(block, 'height', Blockly.PHP.ORDER_NONE);
   
-  var code = `<img src="${removeLiterals(value_image_url)}" alt="Image" style="width:${value_width};height:${value_height};opacity:${number_image_opacity}">`;
+  var code = `<img src="${removeLiterals(value_image_url)}" alt="Image" style="width:${value_width};height:${value_height};opacity:${number_image_opacity};">`;
   
   return code;
 };
@@ -78,21 +83,23 @@ Blockly.PHP['image'] = function(block) {
 Blockly.PHP['footer'] = function(block) {
   var checkbox_name = block.getFieldValue('show_nav') == 'TRUE'; // show navigation menu
   var statements_footer_components = Blockly.PHP.statementToCode(block, 'footer_components');
+  var display_style = Blockly.PHP.valueToCode(block, 'style', Blockly.PHP.ORDER_NONE);
   var navigation_menu = "";
   
   if (checkbox_name) {
-    navigation_menu = `<?php wp_nav_menu (
-                          array(
-                            'theme_location' => 'footer-menu',
-                            'menu_class' => 'bottom-bar'
-                          )
-                        ); ?>`
+    navigation_menu = `
+    <?php wp_nav_menu (
+      array(
+        'theme_location' => 'footer-menu',
+        'menu_class' => 'bottom-bar'
+      )
+    ); ?>`
   }
 
   var code = ` 
         <?php /* Footer */ ?>
   <?php wp_footer();?>
-  <footer class="fixed-bottom">
+  <footer class="fixed-bottom" style="${display_style}">
   <div class="container">
        ${navigation_menu}
        ${statements_footer_components}
@@ -104,8 +111,8 @@ Blockly.PHP['footer'] = function(block) {
 };
 
 Blockly.PHP['page'] = function(block) {
-  var statements_name = Blockly.PHP.statementToCode(block, 'single_page');
-  var value_margin = Blockly.PHP.valueToCode(block, 'margin', Blockly.PHP.ORDER_NONE);
+  var statements_name = Blockly.PHP.statementToCode(block, 'input');
+  var value_margin = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
 
   var code = `
         <?php /* Template Name: Static page */ ?>
@@ -119,8 +126,8 @@ Blockly.PHP['page'] = function(block) {
 };
 
 Blockly.PHP['single'] = function(block) {
-  var statements_single_post = Blockly.PHP.statementToCode(block, 'single_post');
-  var value_margin = Blockly.PHP.valueToCode(block, 'margin', Blockly.PHP.ORDER_NONE);
+  var statements_single_post = Blockly.PHP.statementToCode(block, 'input');
+  var value_margin = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
 
   var code = `
         <?php /* Template Name: Single post */ ?>
@@ -134,8 +141,8 @@ Blockly.PHP['single'] = function(block) {
 };
 
 Blockly.PHP['archive'] = function(block) {
-  var statements_archive = Blockly.PHP.statementToCode(block, 'archive');
-  var value_margin = Blockly.PHP.valueToCode(block, 'margin', Blockly.PHP.ORDER_NONE);
+  var statements_archive = Blockly.PHP.statementToCode(block, 'input');
+  var value_margin = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
 
   var code = ` <?php /* Archive */ ?>
   <?php get_header();?>
@@ -159,15 +166,7 @@ Blockly.PHP['text_style'] = function(block) {
 
   var text_transform = dropdown_transformation == 0 ? "" : `text-transform:${dropdown_transformation};`;
 
-  var code = `
-  style="font-family:${removeLiterals(value_font_family)}; 
-        font-size:${number_font_size}px;
-        font-weight:${dropdown_font_weight};
-        color:${removeLiterals(value_font_color)};
-        background-color:${removeLiterals(value_background_color)};
-        text-align:${dropdown_alignment};
-        ${text_transform}
-        font-style:${dropdown_font_style};"`;
+  var code = `font-family:${removeLiterals(value_font_family)}; font-size:${number_font_size}px; font-weight:${dropdown_font_weight}; color:${removeLiterals(value_font_color)}; background-color:${removeLiterals(value_background_color)}; text-align:${dropdown_alignment}; ${text_transform} font-style:${dropdown_font_style};`;
 
   return [code, Blockly.PHP.ORDER_NONE];
 };
@@ -178,57 +177,52 @@ Blockly.PHP['posts'] = function(block) {
   var checkbox_show_thumbnail = block.getFieldValue('show_thumbnail') == 'TRUE';
   var value_post_style = Blockly.PHP.valueToCode(block, 'post_style', Blockly.PHP.ORDER_NONE);
 
-  var thumbnail_code = checkbox_show_thumbnail ? `<?php if(has_post_thumbnail()):?>            
-                                                  <a href="<?php the_permalink();?>">
-                                                    <img src="<?php the_post_thumbnail_url();?>" class="img-fluid mb-3" alt="<?php the_title();?>">
-                                                  </a>
-                                                  <?php endif;?>` : "";
+  var thumbnail_code = checkbox_show_thumbnail ? 
+  `<?php if(has_post_thumbnail()):?>            
+      <a href="<?php the_permalink();?>">
+        <img src="<?php the_post_thumbnail_url();?>" class="img-fluid mb-3" alt="<?php the_title();?>">
+      </a>
+    <?php endif;?>` : "";
   
-  var code = `<?php
-              $args = array(
-                'post_type' => 'post',
-                'posts_per_page' => ${number_posts_per_page}
-              );
-              $_posts = new WP_Query($args);
-              ?>
+  var code = 
+  `<?php
+   $args = array(
+     'post_type' => 'post',
+     'posts_per_page' => ${number_posts_per_page}
+   );
+   $_posts = new WP_Query($args);
+   ?>
               
-              <?php if($_posts->have_posts()):?>
-              
-                <?php while($_posts->have_posts()): $_posts->the_post();?>
-
-                <div ${value_post_style}>
-              
-                  ${thumbnail_code}
-
-                  ${statements_post}
-                  
-                  </div>
-              
-                <?php endwhile;?>
-              
-              <?php endif;?>`;
+   <?php if($_posts->have_posts()):?>
+     <?php while($_posts->have_posts()): $_posts->the_post();?>
+     <div ${value_post_style}>
+       ${thumbnail_code}
+       ${statements_post}
+       </div>
+     <?php endwhile;?>
+   <?php endif;?>`;
 
   return code;
 };
 
-Blockly.PHP['title'] = function(block) {
-  var value_post_title_style = Blockly.PHP.valueToCode(block, 'post_title_style', Blockly.PHP.ORDER_NONE);
+Blockly.PHP['item_title'] = function(block) {
+  var value_post_title_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
 
-  var code = `<p ${value_post_title_style}><?php the_title();?></p>`;
+  var code = `<p style="${value_post_title_style}"><?php the_title();?></p>`;
   return code;
 };
 
-Blockly.PHP['content'] = function(block) {
-  var value_post_content_style = Blockly.PHP.valueToCode(block, 'post_content_style', Blockly.PHP.ORDER_NONE);
+Blockly.PHP['item_content'] = function(block) {
+  var value_post_content_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
 
-  var code = `<p ${value_post_content_style}><?php the_content();?></p>`;
+  var code = `<p style="${value_post_content_style}"><?php the_content();?></p>`;
   return code;
 };
 
-Blockly.PHP['excerpt'] = function(block) {
-  var value_post_excerpt_style = Blockly.PHP.valueToCode(block, 'post_excerpt_style', Blockly.PHP.ORDER_NONE);
+Blockly.PHP['item_excerpt'] = function(block) {
+  var value_post_excerpt_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
 
-  var code = `<p ${value_post_excerpt_style}><?php the_excerpt();?></p>`;
+  var code = `<p style="${value_post_excerpt_style}"><?php the_excerpt();?></p>`;
   return code;
 };
 
@@ -270,22 +264,17 @@ Blockly.PHP['display_style'] = function(block) {
   var value_background = Blockly.PHP.valueToCode(block, 'background', Blockly.PHP.ORDER_NONE);
   var value_padding = Blockly.PHP.valueToCode(block, 'padding', Blockly.PHP.ORDER_NONE);
   
-  var code = ` style="${value_margins}
-                      ${value_border}
-                      ${value_padding}
-                      background_color: ${removeLiterals(value_background)};" `;
+  var code = `${value_margins} ${value_border} ${value_padding} background: ${removeLiterals(value_background)};" `;
 
   return [code, Blockly.PHP.ORDER_NONE];
 };
 
 Blockly.PHP['border'] = function(block) {
-  var value_border_style = Blockly.PHP.valueToCode(block, 'border_style', Blockly.PHP.ORDER_NONE);
+  var dropdown_border_style = block.getFieldValue('border_style');
   var value_border_width = Blockly.PHP.valueToCode(block, 'border_width', Blockly.PHP.ORDER_NONE);
   var value_border_color = Blockly.PHP.valueToCode(block, 'border_color', Blockly.PHP.ORDER_NONE);
 
-  var code = `border-style: ${removeLiterals(value_border_style)};
-              border-width: ${removeLiterals(value_border_width)};
-              border-color: ${removeLiterals(value_border_color)};`;
+  var code = `border-style: ${dropdown_border_style}; border-width: ${value_border_width}; border-color: ${removeLiterals(value_border_color)};`;
 
   return [code, Blockly.PHP.ORDER_NONE];
 };
@@ -294,20 +283,18 @@ Blockly.PHP['records'] = function(block) {
   var value_display_style = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
   var statements_item_configuration = Blockly.PHP.statementToCode(block, 'item_configuration');
 
-  var code = `    <?php if (have_posts()) : while(have_posts()) : the_post() ;?>
+  var code = `
+  <?php if (have_posts()) : while(have_posts()) : the_post() ;?>
+  <div style="${value_display_style}">
+      ${statements_item_configuration}
+  </div>
+  <?php endwhile; endif;?>`;
 
-                    <div ${value_display_style}>
-                        
-                        ${statements_item_configuration}
-
-                    </div>
-
-                    <?php endwhile; endif;?>`;
   return code;
 };
 
 Blockly.PHP['search'] = function(block) {
-  var value_margins = Blockly.PHP.valueToCode(block, 'margins', Blockly.PHP.ORDER_NONE);
+  var value_margins = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
   var statements_content = Blockly.PHP.statementToCode(block, 'content');
 
   var code = `
@@ -322,8 +309,8 @@ Blockly.PHP['search'] = function(block) {
 };
 
 Blockly.PHP['404'] = function(block) {
-  var value_margins = Blockly.PHP.valueToCode(block, 'margins', Blockly.PHP.ORDER_NONE);
-  var statements_content = Blockly.PHP.statementToCode(block, 'content');
+  var value_margins = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
+  var statements_content = Blockly.PHP.statementToCode(block, 'input');
 
   var code = `
       <?php /* 404 page */ ?>
@@ -346,8 +333,8 @@ Blockly.PHP['padding'] = function(block) {
 };
 
 Blockly.PHP['index'] = function(block) {
-  var value_margins = Blockly.PHP.valueToCode(block, 'margins', Blockly.PHP.ORDER_NONE);
-  var statements_components = Blockly.PHP.statementToCode(block, 'components');
+  var value_margins = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
+  var statements_components = Blockly.PHP.statementToCode(block, 'input');
 
   var code = `
         <?php /* Template Name: Index page (default) */ ?>
@@ -360,8 +347,29 @@ Blockly.PHP['index'] = function(block) {
   return code;
 };
 
-////////// move
+Blockly.PHP['empty_statement'] = function(block) {
+  var code = '';
+  return code;
+};
 
-function removeLiterals(text) {
-    return text.substring(1, text.length - 1);
-}
+Blockly.PHP['empty_value'] = function(block) {
+  var code = '';
+  return [code, Blockly.PHP.ORDER_NONE];
+};
+
+Blockly.PHP['row'] = function(block) {
+  var statements_input = Blockly.PHP.statementToCode(block, 'input');
+
+  var code = `<div class="row">${statements_input}</div>`;
+
+  return code;
+};
+
+Blockly.PHP['column'] = function(block) {
+  var number_width = block.getFieldValue('width');
+  var statements_input = Blockly.PHP.statementToCode(block, 'input');
+
+  var code = `<div class="col-${number_width}">${statements_input}</div>`;
+
+  return code;
+};

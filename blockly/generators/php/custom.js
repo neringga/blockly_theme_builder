@@ -27,20 +27,17 @@ Blockly.PHP['page_content'] = function(block) {
 };
 
 Blockly.PHP['header'] = function(block) {
-  var checkbox_name = block.getFieldValue('NAME') == 'TRUE'; // show navigation menu
+  var value_navigation_menu = Blockly.PHP.valueToCode(block, 'navigation_menu', Blockly.PHP.ORDER_NONE);
   var statements_header_components = Blockly.PHP.statementToCode(block, 'header_components');
-  var display_style = Blockly.PHP.valueToCode(block, 'style', Blockly.PHP.ORDER_NONE);
-  var navigation_menu = "";
+  var display_style = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
+  var value_size = Blockly.PHP.valueToCode(block, 'size', Blockly.PHP.ORDER_NONE); // i css ant header
 
-  if (checkbox_name == true) {
-    navigation_menu = `
-    <?php wp_nav_menu (
-      array(
-        'theme_location' => 'header-menu',
-        'menu_class' => 'top-bar'
-      )
-    ); ?>`
-  }
+  var content = `
+  header {
+    ${value_size}
+  }`
+
+  updateTheme("header.css", content)
   
   var code = ` 
         <?php /* Header */ ?>
@@ -51,11 +48,38 @@ Blockly.PHP['header'] = function(block) {
 
     <header class="sticky-top" style="${display_style}">
     <div class="container">
-      ${navigation_menu}
+      ${value_navigation_menu}
       ${statements_header_components}
       </div>
     </header>`;
 
+  return code;
+};
+
+Blockly.PHP['footer'] = function(block) {
+  var value_navigation_menu = Blockly.PHP.valueToCode(block, 'navigation_menu', Blockly.PHP.ORDER_NONE);
+  var statements_components = Blockly.PHP.statementToCode(block, 'footer_components');
+  var display_style = Blockly.PHP.valueToCode(block, 'display_style', Blockly.PHP.ORDER_NONE);
+  var value_size = Blockly.PHP.valueToCode(block, 'size', Blockly.PHP.ORDER_NONE); 
+
+  var content = `
+  footer {
+    ${value_size}
+  }`
+
+  updateTheme("footer.css", content)
+
+  var code = ` 
+        <?php /* Footer */ ?>
+  <?php wp_footer();?>
+  <footer class="fixed-bottom" style="${display_style}">
+  <div class="container">
+       ${value_navigation_menu}
+       ${statements_components}
+  </div>
+  </footer>
+  </body>
+  </html>`;
   return code;
 };
 
@@ -77,36 +101,6 @@ Blockly.PHP['image'] = function(block) {
   
   var code = `<img src="${removeLiterals(value_image_url)}" alt="Image" style="width:${value_width};height:${value_height};opacity:${number_image_opacity};">`;
   
-  return code;
-};
-
-Blockly.PHP['footer'] = function(block) {
-  var checkbox_name = block.getFieldValue('show_nav') == 'TRUE'; // show navigation menu
-  var statements_footer_components = Blockly.PHP.statementToCode(block, 'footer_components');
-  var display_style = Blockly.PHP.valueToCode(block, 'style', Blockly.PHP.ORDER_NONE);
-  var navigation_menu = "";
-  
-  if (checkbox_name) {
-    navigation_menu = `
-    <?php wp_nav_menu (
-      array(
-        'theme_location' => 'footer-menu',
-        'menu_class' => 'bottom-bar'
-      )
-    ); ?>`
-  }
-
-  var code = ` 
-        <?php /* Footer */ ?>
-  <?php wp_footer();?>
-  <footer class="fixed-bottom" style="${display_style}">
-  <div class="container">
-       ${navigation_menu}
-       ${statements_footer_components}
-  </div>
-  </footer>
-  </body>
-  </html>`;
   return code;
 };
 
@@ -195,7 +189,7 @@ Blockly.PHP['posts'] = function(block) {
               
    <?php if($_posts->have_posts()):?>
      <?php while($_posts->have_posts()): $_posts->the_post();?>
-     <div ${value_post_style}>
+     <div style="${value_post_style}">
        ${thumbnail_code}
        ${statements_post}
        </div>
@@ -208,7 +202,12 @@ Blockly.PHP['posts'] = function(block) {
 Blockly.PHP['item_title'] = function(block) {
   var value_post_title_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
 
-  var code = `<p style="${value_post_title_style}"><?php the_title();?></p>`;
+  var code = `
+  <a href="<?php the_permalink();?>"> 
+  <p style="${value_post_title_style}">
+  <?php the_title();?>
+  </p> 
+  </a>`;
   return code;
 };
 
@@ -264,7 +263,7 @@ Blockly.PHP['display_style'] = function(block) {
   var value_background = Blockly.PHP.valueToCode(block, 'background', Blockly.PHP.ORDER_NONE);
   var value_padding = Blockly.PHP.valueToCode(block, 'padding', Blockly.PHP.ORDER_NONE);
   
-  var code = `${value_margins} ${value_border} ${value_padding} background: ${removeLiterals(value_background)};" `;
+  var code = `${value_margins} ${value_border} ${value_padding} background: ${removeLiterals(value_background)}; `;
 
   return [code, Blockly.PHP.ORDER_NONE];
 };
@@ -372,4 +371,41 @@ Blockly.PHP['column'] = function(block) {
   var code = `<div class="col-${number_width}">${statements_input}</div>`;
 
   return code;
+};
+
+Blockly.PHP['hex_color_code'] = function(block) {
+  var text_hex_colour = block.getFieldValue('hex_colour');
+  
+  return [text_hex_colour, Blockly.PHP.ORDER_NONE];
+};
+
+Blockly.PHP['navigation'] = function(block) {
+  var dropdown_nav_menu_name = block.getFieldValue('nav_menu_name');
+  var value_text_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
+
+  var content = `
+  header .top-bar li a {
+    ${value_text_style}
+  }`
+
+  updateTheme("navigation.css", content)
+  
+  var code = `
+  <?php wp_nav_menu (
+    array(
+      'theme_location' => '${dropdown_nav_menu_name}',
+      'menu_class' => 'top-bar'
+    )
+  ); ?>`;
+  
+  return [code, Blockly.PHP.ORDER_NONE];
+};
+
+Blockly.PHP['size'] = function(block) {
+  var value_width = Blockly.PHP.valueToCode(block, 'width', Blockly.PHP.ORDER_NONE);
+  var value_height = Blockly.PHP.valueToCode(block, 'height', Blockly.PHP.ORDER_NONE);
+
+  var code = `width:${value_width}; height:${value_height};`;
+
+  return [code, Blockly.PHP.ORDER_NONE];
 };

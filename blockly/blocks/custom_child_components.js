@@ -205,5 +205,39 @@ Blockly.defineBlocksWithJsonArray([
         "colour": 120,
         "tooltip": "",
         "helpUrl": ""
+      },
+      {
+        "type": "navigation",
+        "message0": "Menu %1 Display location: %2 %3 Text style %4",
+        "args0": [
+          {
+            "type": "input_dummy"
+          },
+          {
+            "type": "field_dropdown",
+            "name": "nav_menu_name",
+            "options": [
+              [
+                "Menu A",
+                "header-menu"
+              ],
+              [
+                "Menu B",
+                "footer-menu"
+              ]
+            ]
+          },
+          {
+            "type": "input_dummy"
+          },
+          {
+            "type": "input_value",
+            "name": "text_style"
+          }
+        ],
+        "output": null,
+        "colour": 120,
+        "tooltip": "",
+        "helpUrl": ""
       }
 ]);

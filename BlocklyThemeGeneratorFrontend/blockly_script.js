@@ -22,25 +22,7 @@ function onWorkspaceChange(event) {
       var blockName = blocks[i].type + ".php";
       var blockCode = Blockly.PHP.blockToCode(blocks[i]);
 
-      var request = {
-        title: blockName,
-        content: blockCode,
-      };
-
-      $.ajax({
-        type: "post",
-        contentType: "application/json; charset=utf-8",
-        url: `https://localhost:5001/api/wordpressTheme`,
-        data: JSON.stringify(request),
-        success: function (status) {
-          document.getElementById(
-            "iframe_wordpress"
-          ).src = document.getElementById("iframe_wordpress").src;
-        },
-        error: function () {
-          console.log("error");
-        },
-      });
+      updateTheme(blockName, blockCode)
     }
   }
 }
@@ -68,5 +50,27 @@ function showCode() {
 
   zip.generateAsync({ type: "blob" }).then(function (content) {
     saveAs(content, "theme.zip");
+  });
+}
+
+function updateTheme(fileName, fileContent) {
+  var request = {
+    title: fileName,
+    content: fileContent,
+  };
+
+  $.ajax({
+    type: "post",
+    contentType: "application/json; charset=utf-8",
+    url: `https://localhost:5001/api/wordpressTheme`,
+    data: JSON.stringify(request),
+    success: function (status) {
+      document.getElementById(
+        "iframe_wordpress"
+      ).src = document.getElementById("iframe_wordpress").src;
+    },
+    error: function () {
+      console.log("error");
+    },
   });
 }

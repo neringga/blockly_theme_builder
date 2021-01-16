@@ -69,8 +69,12 @@
     </category>
     <category name="Colour" colour="#a5745b">
       <block type="colour_picker">
-        <field name="COLOUR">#ff0000</field>
+        <field name="COLOUR">#000000</field>
       </block>
+      <block type="colour_picker">
+        <field name="COLOUR">#ffffff</field>
+      </block>
+      <block type="hex_color_code"></block>
     </category>
     <sep></sep>
     <category name="Templates">
@@ -96,6 +100,7 @@
       <block type="search_field"></block>
       <block type="posts"></block>
       <block type="records"></block>
+      <block type="navigation"></block>
     </category>
     <category name="Post items">
       <block type="item_title"></block>
@@ -106,6 +111,7 @@
       <block type="empty_value"></block>
       <block type="pixels"></block>
       <block type="percents"></block>
+      <block type="size"></block>
       <block type="text_style"></block>
       <block type="content_margin"></block>
       <block type="display_style"></block>
@@ -114,6 +120,19 @@
     </category>
     <sep></sep>
     <category name="Configuration examples">
+
+      <block type="size">
+        <value name="width">
+          <block type="percents">
+            <field name="percents">100</field>
+          </block>
+        </value>
+        <value name="height">
+          <block type="pixels">
+            <field name="pixels">0</field>
+          </block>
+        </value>
+      </block>
 
       <block type="text_style">
         <field name="font_style">normal</field>
@@ -129,9 +148,9 @@
         <value name="background_color">
           <block type="empty_value"></block>
         </value>
-        <value name="color">
+        <value name="font_color">
           <block type="colour_picker">
-            <field name="COLOUR">#ff0000</field>
+            <field name="COLOUR">#000000</field>
           </block>
         </value>
       </block>
@@ -210,9 +229,15 @@
         </value>
         <value name="border">
           <block type="border">
+            <value name="border_style">none</value>
             <value name="border_width">
               <block type="pixels">
                 <field name="pixels">0</field>
+              </block>
+            </value>
+            <value name="border_color">
+              <block type="colour_picker">
+                <field name="COLOUR">#000000</field>
               </block>
             </value>
           </block>
@@ -237,6 +262,21 @@
     </category>
 
     <category name="Template examples">
+
+      <block type="footer">
+        <value name="navigation_menu">
+          <block type="empty_value"></block>
+        </value>
+        <value name="size">
+          <block type="empty_value"></block>
+        </value>
+        <value name="display_style">
+          <block type="empty_value"></block>
+        </value>
+        <statement name="footer_components">
+          <block type="empty_statement"></block>
+        </statement>
+      </block>
 
       <block type="archive">
         <statement name="input">

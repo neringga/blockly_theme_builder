@@ -135,22 +135,22 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "header",
-  "message0": "Header %1 Show navigation menu %2 %3 Display style %4 %5",
+  "message0": "Header %1 Menu %2 Size %3 Display style %4 %5",
   "args0": [
     {
       "type": "input_dummy"
     },
     {
-      "type": "field_checkbox",
-      "name": "NAME",
-      "checked": true
-    },
-    {
-      "type": "input_dummy"
+      "type": "input_value",
+      "name": "navigation_menu"
     },
     {
       "type": "input_value",
-      "name": "style"
+      "name": "size"
+    },
+    {
+      "type": "input_value",
+      "name": "display_style"
     },
     {
       "type": "input_statement",
@@ -164,22 +164,22 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "footer",
-  "message0": "Footer %1 Show navigation menu %2 %3 Display style %4 %5",
+  "message0": "Footer %1 Menu %2 Size %3 Display style %4 %5",
   "args0": [
     {
       "type": "input_dummy"
     },
     {
-      "type": "field_checkbox",
-      "name": "show_nav",
-      "checked": true
-    },
-    {
-      "type": "input_dummy"
+      "type": "input_value",
+      "name": "navigation_menu"
     },
     {
       "type": "input_value",
-      "name": "style"
+      "name": "size"
+    },
+    {
+      "type": "input_value",
+      "name": "display_style"
     },
     {
       "type": "input_statement",

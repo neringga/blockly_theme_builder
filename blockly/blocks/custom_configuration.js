@@ -356,5 +356,49 @@ Blockly.defineBlocksWithJsonArray([
         "colour": 165,
         "tooltip": "Empty value. No value will be added",
         "helpUrl": ""
+      },
+      {
+        "type": "hex_color_code",
+        "message0": "Hex colour code %1",
+        "args0": [
+          {
+            "type": "field_input",
+            "name": "hex_colour",
+            "text": "#000000"
+          }
+        ],
+        "output": null,
+        "colour": 15,
+        "tooltip": "Enter hex colour code",
+        "helpUrl": ""
+      },
+      {
+        "type": "size",
+        "message0": "Size %1 Width %2 Height %3",
+        "args0": [
+          {
+            "type": "input_dummy"
+          },
+          {
+            "type": "input_value",
+            "name": "width",
+            "check": [
+              "pixels",
+              "percents"
+            ]
+          },
+          {
+            "type": "input_value",
+            "name": "height",
+            "check": [
+              "pixels",
+              "percents"
+            ]
+          }
+        ],
+        "output": null,
+        "colour": 165,
+        "tooltip": "",
+        "helpUrl": ""
       }
 ]);

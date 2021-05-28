@@ -18,7 +18,10 @@ Blockly.PHP['page_content'] = function(block) {
   var code = `
   <?php if (have_posts()) : while(have_posts()) : the_post() ;?>
 
+  <div style="font-size: 30px; text-align: center; margin-bottom:20px;">
     <?php the_title(); ?>
+  </div>
+    
     <?php the_content();?>
 
   <?php endwhile; endif;?>`;
@@ -37,7 +40,10 @@ Blockly.PHP['header'] = function(block) {
     ${value_size}
   }`
 
-  updateTheme("header.css", content)
+  if (workspace.allInputsFilled() && $("#iframe_wordpress").is(":visible")) {
+    updateTheme("header.css", content)
+  }
+  
   
   var code = ` 
         <?php /* Header */ ?>
@@ -86,9 +92,8 @@ Blockly.PHP['footer'] = function(block) {
 Blockly.PHP['text_custom'] = function(block) {
   var value_text = Blockly.PHP.valueToCode(block, 'text', Blockly.PHP.ORDER_NONE);
   var value_text_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
-  var value_margins = Blockly.PHP.valueToCode(block, 'margins', Blockly.PHP.ORDER_NONE);
 
-  var code = `<div style="${value_text_style} ${value_margins}">${removeLiterals(value_text)}</div>`;
+  var code = `<div style="${value_text_style}">${removeLiterals(value_text)}</div>`;
 
   return code;
 };
@@ -96,10 +101,9 @@ Blockly.PHP['text_custom'] = function(block) {
 Blockly.PHP['image'] = function(block) {
   var value_image_url = Blockly.PHP.valueToCode(block, 'image_url', Blockly.PHP.ORDER_NONE);
   var number_image_opacity = block.getFieldValue('image_opacity');
-  var value_width = Blockly.PHP.valueToCode(block, 'width', Blockly.PHP.ORDER_NONE);
-  var value_height = Blockly.PHP.valueToCode(block, 'height', Blockly.PHP.ORDER_NONE);
+  var style = Blockly.PHP.valueToCode(block, 'style', Blockly.PHP.ORDER_NONE);
   
-  var code = `<img src="${removeLiterals(value_image_url)}" alt="Image" style="width:${value_width};height:${value_height};opacity:${number_image_opacity};">`;
+  var code = `<img src="${removeLiterals(value_image_url)}" alt="Image" style="${style}opacity:${number_image_opacity};">`;
   
   return code;
 };
@@ -214,14 +218,14 @@ Blockly.PHP['item_title'] = function(block) {
 Blockly.PHP['item_content'] = function(block) {
   var value_post_content_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
 
-  var code = `<p style="${value_post_content_style}"><?php the_content();?></p>`;
+  var code = `<div style="${value_post_content_style}"><?php the_content();?></div>`;
   return code;
 };
 
 Blockly.PHP['item_excerpt'] = function(block) {
   var value_post_excerpt_style = Blockly.PHP.valueToCode(block, 'text_style', Blockly.PHP.ORDER_NONE);
 
-  var code = `<p style="${value_post_excerpt_style}"><?php the_excerpt();?></p>`;
+  var code = `<div style="${value_post_excerpt_style}"><?php the_excerpt();?></div>`;
   return code;
 };
 
@@ -388,7 +392,9 @@ Blockly.PHP['navigation'] = function(block) {
     ${value_text_style}
   }`
 
-  updateTheme("navigation.css", content)
+  if (workspace.allInputsFilled() && $("#iframe_wordpress").is(":visible")) {
+    updateTheme("navigation.css", content)
+  }
   
   var code = `
   <?php wp_nav_menu (
@@ -406,6 +412,23 @@ Blockly.PHP['size'] = function(block) {
   var value_height = Blockly.PHP.valueToCode(block, 'height', Blockly.PHP.ORDER_NONE);
 
   var code = `width:${value_width}; height:${value_height};`;
+
+  return [code, Blockly.PHP.ORDER_NONE];
+};
+
+Blockly.PHP['unlimited_style'] = function(block) {
+  var code = "";
+  for (var i = 0; i < block.itemCount_; i++) {
+    code += (Blockly.PHP.valueToCode(block, 'ADD' + i, Blockly.PHP.ORDER_NONE) || '') + " ";
+  }
+
+  return [code, Blockly.PHP.ORDER_NONE];
+};
+
+Blockly.PHP['background_color'] = function(block) {
+  var value_name = Blockly.PHP.valueToCode(block, 'NAME', Blockly.PHP.ORDER_NONE);
+
+  var code = `background: ${removeLiterals(value_name)};`;
 
   return [code, Blockly.PHP.ORDER_NONE];
 };

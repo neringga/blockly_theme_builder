@@ -12,11 +12,8 @@ $(document).ready(function () {
   });
 });
 
-function onWorkspaceChange(event) {
-  var code = Blockly.PHP.workspaceToCode(workspace);
-  document.getElementById("codearea").value = code;
-
-  if (workspace.allInputsFilled() && $("#iframe_wordpress").is(":visible")) {
+function onReload() {
+  if ($("#iframe_wordpress").is(":visible")) {
     var blocks = workspace.getTopBlocks();
     for (var i = 0; i < blocks.length; i++) {
       var blockName = blocks[i].type + ".php";
@@ -25,6 +22,11 @@ function onWorkspaceChange(event) {
       updateTheme(blockName, blockCode)
     }
   }
+}
+
+function onWorkspaceChange(event) {
+  var code = Blockly.PHP.workspaceToCode(workspace);
+  document.getElementById("codearea").value = code;
 }
 
 function showCode() {

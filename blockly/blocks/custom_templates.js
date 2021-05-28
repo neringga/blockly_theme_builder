@@ -10,8 +10,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
       "type": "input_value",
-      "name": "display_style",
-      "check": "display_style"
+      "name": "display_style"
     },
     {
       "type": "input_statement",
@@ -32,8 +31,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
       "type": "input_value",
-      "name": "display_style",
-      "check": "display_style"
+      "name": "display_style"
     },
     {
       "type": "input_statement",
@@ -54,8 +52,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
       "type": "input_value",
-      "name": "display_style",
-      "check": "display_style"
+      "name": "display_style"
     },
     {
       "type": "input_statement",
@@ -76,8 +73,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
       "type": "input_value",
-      "name": "display_style",
-      "check": "display_style"
+      "name": "display_style"
     },
     {
       "type": "input_statement",
@@ -98,8 +94,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
       "type": "input_value",
-      "name": "display_style",
-      "check": "display_style"
+      "name": "display_style"
     },
     {
       "type": "input_statement",
@@ -120,8 +115,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
       "type": "input_value",
-      "name": "display_style",
-      "check": "display_style"
+      "name": "display_style"
     },
     {
       "type": "input_statement",
@@ -200,8 +194,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
       "type": "input_value",
-      "name": "display_style",
-      "check": "display_style"
+      "name": "display_style"
     },
     {
       "type": "input_statement",

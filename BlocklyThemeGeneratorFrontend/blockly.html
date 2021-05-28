@@ -10,7 +10,6 @@
     <script src="../blockly/msg/js/en.js"></script>
     <script src="../blockly/php_compressed.js"></script>
     <script src="../blockly/generators/php/custom_helper.js"></script>
-    <script src="../blockly/blocks/custom.js"></script>
 
     <script src="../blockly/blocks/custom_templates.js"></script>
     <script src="../blockly/blocks/custom_content_items.js"></script>
@@ -45,6 +44,10 @@
         </td>
         <td style="width:50%; height: 100%;">
 
+          <button type="button" class="btn btn-success" onclick="onReload()">
+            Reload
+          </button>
+
           <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin: 5px;">
             <label class="btn btn-secondary active">
               <input type="radio" name="options" id="option_code" autocomplete="off" checked> Code
@@ -67,7 +70,7 @@
         <field name="TEXT"></field>
       </block>
     </category>
-    <category name="Colour" colour="#a5745b">
+    <category name="Colour">
       <block type="colour_picker">
         <field name="COLOUR">#000000</field>
       </block>
@@ -93,7 +96,6 @@
       <block type="column"></block>
     </category>
     <category name="Child components">
-      <block type="empty_statement"></block>
       <block type="page_content"></block>
       <block type="text_custom"></block>
       <block type="image"></block>
@@ -108,7 +110,8 @@
       <block type="item_excerpt"></block>
     </category>
     <category name="Configuration">
-      <block type="empty_value"></block>
+      <block type="unlimited_style"></block>
+      <block type="background_color"></block>
       <block type="pixels"></block>
       <block type="percents"></block>
       <block type="size"></block>
@@ -121,6 +124,20 @@
     <sep></sep>
     <category name="Configuration examples">
 
+      <block type="border">
+        <field name="border_style">solid</field>
+        <value name="border_width">
+          <block type="pixels">
+            <field name="pixels">1</field>
+          </block>
+        </value>
+        <value name="border_color">
+          <block type="colour_picker">
+            <field name="COLOUR">#000000</field>
+          </block>
+        </value>
+      </block>
+
       <block type="size">
         <value name="width">
           <block type="percents">
@@ -129,7 +146,7 @@
         </value>
         <value name="height">
           <block type="pixels">
-            <field name="pixels">0</field>
+            <field name="pixels">50</field>
           </block>
         </value>
       </block>
@@ -137,8 +154,8 @@
       <block type="text_style">
         <field name="font_style">normal</field>
         <field name="font_weight">normal</field>
-        <field name="font_size">12</field>
-        <field name="alignment">left</field>
+        <field name="font_size">14</field>
+        <field name="alignment">center</field>
         <field name="transformation">0</field>
         <value name="font_family">
           <block type="text">
@@ -228,18 +245,31 @@
           </block>
         </value>
         <value name="border">
-          <block type="border">
-            <value name="border_style">none</value>
-            <value name="border_width">
-              <block type="pixels">
-                <field name="pixels">0</field>
-              </block>
-            </value>
-            <value name="border_color">
-              <block type="colour_picker">
-                <field name="COLOUR">#000000</field>
-              </block>
-            </value>
+          <block type="empty_value"></block>
+        </value>
+        <value name="background">
+          <block type="colour_picker">
+            <field name="COLOUR">#000000</field>
+          </block>
+        </value>
+      </block>
+
+      
+      <block type="image">
+        <value name="image_url">
+          <block type="text">
+            <field name="TEXT">https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/OCR-A_char_Long_Vertical_Mark.svg/1200px-OCR-A_char_Long_Vertical_Mark.svg.png</field>
+          </block>
+        </value>
+        <field name="image_opacity">0.3</field>
+        <value name="width">
+          <block type="pixels">
+            <field name="pixels">100</field>
+          </block>
+        </value>
+        <value name="height">
+          <block type="percents">
+            <field name="percents">100</field>
           </block>
         </value>
       </block>
@@ -259,9 +289,43 @@
           </block>
         </statement>
       </block>
+
+      <block type="row">
+        <statement name="input">
+          <block type="column">
+            <field name="width">2</field>
+            <next>
+              <block type="column">
+                <field name="width">8</field>
+                <statement name="input">
+                  <block type="page_content"></block>
+                </statement>
+                <next>
+                  <block type="column">
+                    <field name="width">2</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
     </category>
 
     <category name="Template examples">
+
+      <block type="header">
+        <value name="navigation_menu">
+          <block type="navigation">
+            <field name="nav_menu_name">header_menu</field>
+            <value name="text_style"></value>
+          </block>
+        </value>
+        <value name="display_style"></value>
+        <statement name="header_components">
+          <block type="empty_statement"></block>
+        </statement>
+      </block>
 
       <block type="footer">
         <value name="navigation_menu">
@@ -279,20 +343,123 @@
       </block>
 
       <block type="archive">
+        <value name="display_style">
+          <block type="display_style">
+            <value name="margins">
+              <block type="content_margin">
+                <value name="left_margin">
+                  <block type="percents">
+                    <field name="percents">10</field>
+                  </block>
+                </value>
+                <value name="right_margin">
+                  <block type="percents">
+                    <field name="percents">10</field>
+                  </block>
+                </value>
+                <value name="top_margin">
+                  <block type="percents">
+                    <field name="percents">5</field>
+                  </block>
+                </value>
+                <value name="bottom_margin">
+                  <block type="percents">
+                    <field name="percents">5</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <value name="padding">
+              <block type="empty_value"></block>
+            </value>
+            <value name="border">
+              <block type="empty_value"></block>
+            </value>
+            <value name="background">
+              <block type="empty_value"></block>
+            </value>
+          </block>
+        </value>
         <statement name="input">
           <block type="records">
+            <value name="display_style">
+              <block type="display_style">
+                <value name="margins">
+                  <block type="content_margin">
+                    <value name="left_margin">
+                      <block type="percents">
+                        <field name="percents">0</field>
+                      </block>
+                    </value>
+                    <value name="right_margin">
+                      <block type="percents">
+                        <field name="percents">0</field>
+                      </block>
+                    </value>
+                    <value name="top_margin">
+                      <block type="percents">
+                        <field name="percents">0</field>
+                      </block>
+                    </value>
+                    <value name="bottom_margin">
+                      <block type="percents">
+                        <field name="percents">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="padding">
+                  <block type="padding">
+                    <value name="left">
+                      <block type="percents">
+                        <field name="percents">2</field>
+                      </block>
+                    </value>
+                    <value name="right">
+                      <block type="percents">
+                        <field name="percents">2</field>
+                      </block>
+                    </value>
+                    <value name="top">
+                      <block type="percents">
+                        <field name="percents">2</field>
+                      </block>
+                    </value>
+                    <value name="bottom">
+                      <block type="percents">
+                        <field name="percents">2</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="border"></value>
+                <value name="background">
+                  <block type="hex_color_code">
+                    <field name="hex_colour">#f0f5f5</field>
+                  </block>
+                </value>
+              </block>
+            </value>
             <statement name="item_configuration">
               <block type="item_title">
                 <value name="text_style">
                   <block type="text_style">
                     <field name="font_style">normal</field>
                     <field name="font_weight">normal</field>
-                    <field name="font_size">12</field>
+                    <field name="font_size">18</field>
                     <field name="alignment">left</field>
                     <field name="transformation">0</field>
                     <value name="font_family">
                       <block type="text">
                         <field name="TEXT">Arial</field>
+                      </block>
+                    </value>
+                    <value name="background_color">
+                      <block type="empty_value"></block>
+                    </value>
+                    <value name="font_color">
+                      <block type="colour_picker">
+                        <field name="COLOUR">#000000</field>
                       </block>
                     </value>
                   </block>
@@ -311,6 +478,14 @@
                             <field name="TEXT">Arial</field>
                           </block>
                         </value>
+                        <value name="background_color">
+                          <block type="empty_value"></block>
+                        </value>
+                        <value name="font_color">
+                          <block type="colour_picker">
+                            <field name="COLOUR">#000000</field>
+                          </block>
+                        </value>
                       </block>
                     </value>
                   </block>
@@ -327,103 +502,39 @@
               <block type="content_margin">
                 <value name="left_margin">
                   <block type="percents">
-                    <field name="percents">0</field>
+                    <field name="percents">5</field>
                   </block>
                 </value>
                 <value name="right_margin">
                   <block type="percents">
-                    <field name="percents">0</field>
+                    <field name="percents">5</field>
                   </block>
                 </value>
                 <value name="top_margin">
                   <block type="percents">
-                    <field name="percents">0</field>
+                    <field name="percents">5</field>
                   </block>
                 </value>
                 <value name="bottom_margin">
                   <block type="percents">
-                    <field name="percents">0</field>
+                    <field name="percents">5</field>
                   </block>
                 </value>
               </block>
             </value>
             <value name="padding">
-              <block type="padding">
-                <value name="left">
-                  <block type="percents">
-                    <field name="percents">0</field>
-                  </block>
-                </value>
-                <value name="right">
-                  <block type="percents">
-                    <field name="percents">0</field>
-                  </block>
-                </value>
-                <value name="top">
-                  <block type="percents">
-                    <field name="percents">0</field>
-                  </block>
-                </value>
-                <value name="bottom">
-                  <block type="percents">
-                    <field name="percents">0</field>
-                  </block>
-                </value>
-              </block>
+              <block type="empty_value"></block>
             </value>
             <value name="border">
-              <block type="border">
-                <value name="border_width">
-                  <block type="pixels">
-                    <field name="pixels">0</field>
-                  </block>
-                </value>
+              <block type="empty_value"></block>
+            </value>
+            <value name="background">
+              <block type="colour_picker">
+                <field name="COLOUR">#ffffff</field>
               </block>
             </value>
           </block>
         </value>
-        <statement name="input">
-          <block type="posts">
-            <field name="posts_per_page">10</field>
-            <field name="show_thumbnail">TRUE</field>
-            <statement name="post">
-              <block type="item_title">
-                <value name="text_style">
-                  <block type="text_style">
-                    <field name="font_style">normal</field>
-                    <field name="font_weight">normal</field>
-                    <field name="font_size">12</field>
-                    <field name="alignment">left</field>
-                    <field name="transformation">0</field>
-                    <value name="font_family">
-                      <block type="text">
-                        <field name="TEXT">Arial</field>
-                      </block>
-                    </value>
-                  </block>
-                </value>
-                <next>
-                  <block type="item_content">
-                    <value name="text_style">
-                      <block type="text_style">
-                        <field name="font_style">normal</field>
-                        <field name="font_weight">normal</field>
-                        <field name="font_size">12</field>
-                        <field name="alignment">left</field>
-                        <field name="transformation">0</field>
-                        <value name="font_family">
-                          <block type="text">
-                            <field name="TEXT">Arial</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                  </block>
-                </next>
-              </block>
-            </statement>
-          </block>
-        </statement>
       </block>
 
     </category>

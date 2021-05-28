@@ -10,7 +10,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
         "type": "text_custom",
-        "message0": "Text %1 Text style %2 Margins %3",
+        "message0": "Text %1 Style %2",
         "args0": [
           {
             "type": "input_value",
@@ -19,10 +19,6 @@ Blockly.defineBlocksWithJsonArray([
           {
             "type": "input_value",
             "name": "text_style"
-          },
-          {
-            "type": "input_value",
-            "name": "margins"
           }
         ],
         "inputsInline": false,
@@ -34,7 +30,7 @@ Blockly.defineBlocksWithJsonArray([
       },
       {
         "type": "image",
-        "message0": "Image URL %1 Opacity %2 %3 Width %4 Height %5",
+        "message0": "Image URL %1 Opacity %2 %3 Style %4",
         "args0": [
           {
             "type": "input_value",
@@ -53,13 +49,7 @@ Blockly.defineBlocksWithJsonArray([
           },
           {
             "type": "input_value",
-            "name": "width",
-            "check": ["pixels", "percents"]
-          },
-          {
-            "type": "input_value",
-            "name": "height",
-            "check": ["pixels", "percents"]
+            "name": "style",
           }
         ],
         "inputsInline": false,
@@ -71,7 +61,7 @@ Blockly.defineBlocksWithJsonArray([
       },
       {
         "type": "posts",
-        "message0": "Posts %1 Post content items %2 Posts per page %3 %4 Show thumbnail %5 %6 Post display style %7",
+        "message0": "Posts %1 Post content items %2 Posts per page %3 %4 Show thumbnail %5 %6 Post style %7",
         "args0": [
           {
             "type": "input_dummy"
@@ -106,7 +96,6 @@ Blockly.defineBlocksWithJsonArray([
           {
             "type": "input_value",
             "name": "post_style",
-            "check": "display_style"
           }
         ],
         "inputsInline": false,
@@ -127,15 +116,14 @@ Blockly.defineBlocksWithJsonArray([
       },
       {
         "type": "records",
-        "message0": "Records %1 Record display style %2 Record content items %3",
+        "message0": "Records %1 Style %2 Record content items %3",
         "args0": [
           {
             "type": "input_dummy"
           },
           {
             "type": "input_value",
-            "name": "display_style",
-            "check": "display_style"
+            "name": "display_style"
           },
           {
             "type": "input_statement",
@@ -165,7 +153,7 @@ Blockly.defineBlocksWithJsonArray([
       },
       {
         "type": "navigation_menu",
-        "message0": "Navigation menu %1 Alignment %2 %3 Text style %4",
+        "message0": "Navigation menu %1 Alignment %2 %3 Style %4",
         "args0": [
           {
             "type": "input_dummy"
@@ -194,10 +182,6 @@ Blockly.defineBlocksWithJsonArray([
           {
             "type": "input_value",
             "name": "text_style",
-            "check": [
-              "text_style",
-              "empty_value"
-            ]
           }
         ],
         "previousStatement": null,
@@ -208,7 +192,7 @@ Blockly.defineBlocksWithJsonArray([
       },
       {
         "type": "navigation",
-        "message0": "Menu %1 Display location: %2 %3 Text style %4",
+        "message0": "Menu %1 Display location: %2 %3 Style %4",
         "args0": [
           {
             "type": "input_dummy"

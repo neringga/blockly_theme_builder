@@ -61,13 +61,11 @@ Blockly.defineBlocksWithJsonArray([
           },
           {
             "type": "input_value",
-            "name": "font_color",
-            "check": "Colour"
+            "name": "font_color"
           },
           {
             "type": "input_value",
-            "name": "background_color",
-            "check": "Colour"
+            "name": "background_color"
           },
           {
             "type": "field_dropdown",
@@ -131,35 +129,19 @@ Blockly.defineBlocksWithJsonArray([
           },
           {
             "type": "input_value",
-            "name": "left_margin",
-            "check": [
-              "pixels",
-              "percents"
-            ]
+            "name": "left_margin"
           },
           {
             "type": "input_value",
-            "name": "right_margin",
-            "check": [
-              "pixels",
-              "percents"
-            ]
+            "name": "right_margin"
           },
           {
             "type": "input_value",
-            "name": "top_margin",
-            "check": [
-              "pixels",
-              "percents"
-            ]
+            "name": "top_margin"
           },
           {
             "type": "input_value",
-            "name": "bottom_margin",
-            "check": [
-              "pixels",
-              "percents"
-            ]
+            "name": "bottom_margin"
           }
         ],
         "output": null,
@@ -209,23 +191,19 @@ Blockly.defineBlocksWithJsonArray([
           },
           {
             "type": "input_value",
-            "name": "margins",
-            "check": "content_margin"
+            "name": "margins"
           },
           {
             "type": "input_value",
-            "name": "padding",
-            "check": "padding"
+            "name": "padding"
           },
           {
             "type": "input_value",
-            "name": "border",
-            "check": "border"
+            "name": "border"
           },
           {
             "type": "input_value",
-            "name": "background",
-            "check": "Colour"
+            "name": "background"
           }
         ],
         "output": null,
@@ -291,8 +269,7 @@ Blockly.defineBlocksWithJsonArray([
           },
           {
             "type": "input_value",
-            "name": "border_width",
-            "check": "pixels"
+            "name": "border_width"
           },
           {
             "type": "input_value",

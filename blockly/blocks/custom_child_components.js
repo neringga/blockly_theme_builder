@@ -68,12 +68,7 @@ Blockly.defineBlocksWithJsonArray([
           },
           {
             "type": "input_statement",
-            "name": "post",
-            "check": [
-              "item_title",
-              "item_content",
-              "item_excerpt"
-            ]
+            "name": "post"
           },
           {
             "type": "field_number",
@@ -127,12 +122,7 @@ Blockly.defineBlocksWithJsonArray([
           },
           {
             "type": "input_statement",
-            "name": "item_configuration",
-            "check": [
-              "item_title",
-              "item_content",
-              "item_excerpt"
-            ]
+            "name": "item_configuration"
           }
         ],
         "inputsInline": false,
